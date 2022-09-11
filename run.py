@@ -4,11 +4,14 @@
 
 import plotext as pt
 
+SCALE = 0.85
+
 y_vals = [1, 2, 3, 3, 4, 5, 6, 7, 8]
 x_vals = [1, 2, 3, 3, 4, 5, 6, 7, 8]
 
 pt.bar(x_vals, y_vals)
 pt.title('TEST')
-# pt.plot_size()
-# pt.show()
-print(pt.ts())
+
+pt.plot_size(80 * SCALE, 24 * SCALE)
+pt.show()
+# print(pt.ts())
