@@ -9,4 +9,6 @@ x_vals = [1, 2, 3, 3, 4, 5, 6, 7, 8]
 
 pt.bar(x_vals, y_vals)
 pt.title('TEST')
-pt.show()
+# pt.plot_size()
+# pt.show()
+print(pt.ts())
