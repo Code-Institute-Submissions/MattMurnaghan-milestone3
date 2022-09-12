@@ -6,9 +6,14 @@ This program is created to manipulate and update numerical data
 stored within a google sheet using the gspread and google-auth
 APIs.
 """
-import plotext as pt
+from pprint import pprint
+# import numpy as np
+# import pandas as pd
+# import gspread_pandas
 import gspread
+import plotext as pt
 from google.oauth2.service_account import Credentials
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -17,9 +22,12 @@ SCOPE = [
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('milestone3')
+SHEET = GSPREAD_CLIENT.open('milestone_3_data')
 sheet1 = SHEET.worksheet('sheet1')
 
+
+# class program:
+#     def __init__(self, )
 
 def test_plotext():
     """
@@ -35,11 +43,35 @@ def test_plotext():
     pt.show()
 
 
+def remove_duplicates(arr):
+    """
+    This function returns a list with duplicate values removed.
+    """
+    res=[]
+    [res.append(item) for item in arr if item not in res]
+    return res
+
+def find_corrupt_titles(arr):
+    """
+    This function finds corrupted title names in a supplied list.
+    """
+    corrupt_titles = []
+    [corrupt_titles.append(item) for item in arr if "€" in item]
+    return corrupt_titles
+
+
 def main():
     """
     Main function that holds all other function calls.
     """
-    print('This is the main function')
+    # print('This is the main function')
+    # all_vals = sheet1.get_all_values()
+    # column_titles = sheet1.row_values(1)
+    program_titles_column = sheet1.col_values(5)
+    individual_titles = remove_duplicates(program_titles_column)
+    corrupt_titles = find_corrupt_titles(individual_titles)
+    pprint(corrupt_titles)
 
 
 main()
+
