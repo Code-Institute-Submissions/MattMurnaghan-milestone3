@@ -47,17 +47,11 @@ def remove_duplicates(arr):
     """
     This function returns a list with duplicate values removed.
     """
-    res=[]
-    [res.append(item) for item in arr if item not in res]
+    res = []
+    for item in arr:
+        if item not in res:
+            res.append(item)
     return res
-
-def find_corrupt_titles(arr):
-    """
-    This function finds corrupted title names in a supplied list.
-    """
-    corrupt_titles = []
-    [corrupt_titles.append(item) for item in arr if "€" in item]
-    return corrupt_titles
 
 
 def main():
@@ -66,12 +60,14 @@ def main():
     """
     # print('This is the main function')
     # all_vals = sheet1.get_all_values()
-    # column_titles = sheet1.row_values(1)
+    column_titles = sheet1.row_values(1)
     program_titles_column = sheet1.col_values(5)
+    pprint(column_titles)
     individual_titles = remove_duplicates(program_titles_column)
-    corrupt_titles = find_corrupt_titles(individual_titles)
-    pprint(corrupt_titles)
+    # pprint(individual_titles)
+    # corrupt_titles = find_corrupt_titles(individual_titles)
+    # pprint(corrupt_titles)
 
 
-main()
-
+# main()
+test_plotext()
