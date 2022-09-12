@@ -17,8 +17,8 @@ SCOPE = [
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('love_sandwiches')
-sales = SHEET.worksheet('sales')
+SHEET = GSPREAD_CLIENT.open('milestone3')
+sheet1 = SHEET.worksheet('sheet1')
 
 
 def test_plotext():
@@ -34,3 +34,12 @@ def test_plotext():
     pt.plot_size(80 * scale, 24 * scale)
     pt.show()
 
+
+def main():
+    """
+    Main function that holds all other function calls.
+    """
+    print('This is the main function')
+
+
+main()
