@@ -14,16 +14,8 @@ import gspread
 import plotext as pt
 from google.oauth2.service_account import Credentials
 
-# SCOPE = [
-#     "https://www.googleapis.com/auth/spreadsheets",
-#     "https://www.googleapis.com/auth/drive.file",
-#     "https://www.googleapis.com/auth/drive"
-#     ]
-# CREDS = Credentials.from_service_account_file('creds.json')
-# SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-# GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-# SHEET = GSPREAD_CLIENT.open('milestone_3_data')
-# sheet1 = SHEET.worksheet('sheet1')
+COLUMN_TITLES = 1
+PROGRAM_TITLES = 5
 
 
 def test_plotext():
@@ -51,14 +43,6 @@ def remove_duplicates(arr):
     return res
 
 
-# SCOPE = [
-#         "https://www.googleapis.com/auth/spreadsheets",
-#         "https://www.googleapis.com/auth/drive.file",
-#         "https://www.googleapis.com/auth/drive"
-#         ]
-#     CREDS = Credentials.from_service_account_file('creds.json')
-#     SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-#     GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 class GoogleSheet():
     """
     This class hides any credentials to access the sheet from the global scope.
@@ -120,8 +104,8 @@ class DataManager():
         """
         Defines the DataManager class.
         """
-        self.column_titles = sheet.row_values(1)
-        self.program_titles_column = sheet.col_values(5)
+        self.column_titles = sheet.row_values(COLUMN_TITLES)
+        self.program_titles_column = sheet.col_values(PROGRAM_TITLES)
 
     def print_column_titles(self):
         """
@@ -141,10 +125,63 @@ class DataManager():
 
     def print_program_titles(self):
         """
-        blah
+        Prints the program titles to the terminal.
         """
         pprint(remove_duplicates((self.program_titles_column)))
         print(len(remove_duplicates((self.program_titles_column))))
+
+
+def print_welcome_graphic():
+    """
+    Prints a welcome graphic to the terminal
+    """
+    print('*******************************************************')
+    print('*               *******           ****                *')
+    print('*               ********          ****                *')
+    print('*               *********         ****                *')
+    print('*               ****  ****        ****                *')
+    print('*               ****   ****       ****                *')
+    print('*               ****    ****      ****                *')
+    print('*               ****     ****     ****                *')
+    print('*               ****      ****    ****                *')
+    print('*               ****       *****  ****                *')
+    print('*               ****        ****  ****                *')
+    print('*               ****         *********                *')
+    print('*               ****          ********                *')
+    print('*               ****           *******                *')
+    print('*******************************************************')
+    # print('\n')
+    print('*******************************************************')
+    print('*                                                     *')
+    print('*       Welcome to the Netflix analysis tool!         *')
+    print('*                                                     *')
+    print('*******************************************************')
+
+
+def greet_user():
+    """
+    Gets the users name as input in the form of a string.
+    """
+    has_numbers = True
+    too_long = True
+    character_limit = 15
+
+    while has_numbers or too_long:
+        user_name = input('Please enter your name here:\t')
+        if str.isalpha(user_name):
+            has_numbers = False
+        if len(user_name) <= character_limit:
+            too_long = False
+        if has_numbers or too_long:
+            print('\nThe username you have entered is invalid.')
+            print('Usernames must be no longer than 15 characters')
+            print('Usernames must contain only letters.\n')
+            has_numbers = True
+            too_long = True
+
+    print(f'Welcome {user_name}!\n')
+    print('This tool allows you to analyse data collected from')
+    print('multiple netflix users over the course of the pandemic.\n')
 
 
 def main():
@@ -155,8 +192,12 @@ def main():
     sheet.load_data()
     netflix_data = sheet.get_data()
     data_manager = DataManager(netflix_data)
-    data_manager.print_column_titles()
-    data_manager.print_program_titles()
+
+    print_welcome_graphic()
+    greet_user()
+
+    # data_manager.print_column_titles()
+    # data_manager.print_program_titles()
 
 
 main()
