@@ -281,7 +281,7 @@ class DataManager():
                                'rank (smaller is better)'
                     pt.simple_bar(sorted_ranked_titles[0],
                                   sorted_ranked_titles[1],
-                                  width=100,
+                                  width=80,
                                   title=my_title)
                     pt.show()
                 if choices[user_choice] == 'Rank at a certain time':
