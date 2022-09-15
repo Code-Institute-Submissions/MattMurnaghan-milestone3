@@ -7,6 +7,8 @@ stored within a google sheet using the gspread and google-auth
 APIs.
 """
 from pprint import pprint
+# import time
+from random import randint
 # import numpy as np
 # import pandas as pd
 # import gspread_pandas
@@ -95,6 +97,65 @@ def greet_user():
     print('multiple netflix users over the course of the pandemic.\n')
 
 
+def get_user_input(choices):
+    """
+    Lists choices then requests and validates input from user
+    """
+    i = 1
+    for choice in choices:
+        print(f'{i}: {choice}')
+        i += 1
+    invalid_option = True
+    length = len(choices) + 1
+    while invalid_option:
+        data_option = input('\nPlease enter choice here: ')
+        try:
+            in_rng = int(data_option) in range(1, length)
+            if int(data_option) and in_rng:
+                invalid_option = False
+            else:
+                print(f'You selected: {data_option}. Please enter choice')
+                print(f'between 1 and {length} inclusive:\n')
+        except ValueError as error:
+            print(f'Error: {error}.\nPlease enter an integer option.\n')
+    return int(data_option) - 1
+
+
+def find_average_rank(titles, data):
+    """
+    This function finds the average rank of netflix shows between 2020 and 2022 
+    """
+    print('in find_average_rank')
+    unique_titles = remove_duplicates(titles)
+    average_ranks = [[] for i in unique_titles]
+    calculated_average = []
+    print(len(average_ranks))
+    data_count = 0
+    for title in titles:
+        title_index = unique_titles.index(title)
+        average_ranks[title_index].append(int(data[data_count]))
+        data_count += 1
+    for ranks in average_ranks:
+        calculated_average.append(round(sum(ranks)/len(ranks), 2))
+    # for avg, tit in zip(calculated_average, unique_titles):
+    #     print(f'title: {tit} average ranks: {avg}')
+
+    # mydict = {}
+    # for avg, tit in zip(calculated_average, unique_titles):
+    #     mydict[tit] = avg
+    # pprint(mydict)
+    # return mydict
+    return [unique_titles, calculated_average]
+
+
+def sort_titles_and_rank(titles, ranks):
+    """
+    This function should sort through a list of rankings
+    and sort the assigned titles as well.
+    """
+    pass
+
+
 class GoogleSheet():
     """
     This class hides any credentials to access the sheet from the global scope.
@@ -166,16 +227,6 @@ class DataManager():
         """
         pprint(self.column_titles)
 
-    def remove_duplicates(self):
-        """
-        This method returns a list with duplicate values removed.
-        """
-        res = []
-        for item in self.program_titles_column:
-            if item not in res:
-                res.append(item)
-        return res
-
     def print_program_titles(self):
         """
         Prints the program titles to the terminal.
@@ -187,75 +238,41 @@ class DataManager():
         """
         This method asks the user to choose from a selection of data to view
         """
-        # options = [
-        #     'Score',
-        #     'Rank',
-        #     'Title',
-        #     'Type',
-        #     'Release Date'
-        #     ]
         print('What data would you like to view?')
-        i = 1
-        for title in self.column_titles:
-            if i < 10:
-                print(f'{i} : {title}')
-            else:
-                print(f'{i}: {title}')
-            i += 1
-        invalid_option = True
-        while invalid_option:
-            data_option = input('\nPlease enter choice here: ')
-            try:
-                in_rng = int(data_option) in range(1, len(self.column_titles))
-                if int(data_option) and in_rng:
-                    invalid_option = False
-                else:
-                    print(f'You selected: {data_option}. Please enter choice')
-                    print('between 1 and 10 inclusive:\n')
-            except ValueError as error:
-                print(f'Error: {error}.\nPlease enter an integer option.\n')
-        print(f'You selected: {self.column_titles[int(data_option) - 1]}')
-        return int(data_option) - 1
+        result = get_user_input(self.column_titles)
+        return result
 
     def display_data(self, option):
         """
         This method displays the data from the column matching
         the option string passed as an argument.
         """
-        RANK = 'Rank'
-        W_RANK = 'Last Week Rank'
-        Y_RANK = 'Year to Date Rank'
+        rank = 'Rank'
+        w_rank = 'Last Week Rank'
+        y_rank = 'Year to Date Rank'
 
-        print('display data')
+        # print('display data')
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
-        i = 1
-        if selector is RANK or W_RANK or Y_RANK:
-            if selector is RANK:
-                print('Would you like to see the overall rank\
-                    or a rank at a certain time?')
-                choices = ['Overall', 'Certain time']
-                for choice in choices:
-                    print(f'{i}: {choice}')
-                input('Please enter here:')
 
-
-
-
+        if selector is rank or w_rank or y_rank:
             programs_column = self.program_titles_column
-            ranks_column = self.worksheet.col_values(option)
+            print(option)
+            ranks_column = self.worksheet.col_values(option + 1)
+            pprint(ranks_column[1:5])
             programs = programs_column[1:]
             ranks = ranks_column[1:]
 
-            for rank, program in zip(ranks, programs):
-                print(f'{program} recieved a rank of {rank}')
-                
-            # print(self.column_titles)
-            print('selector is ' + selector)
-            # print(ranks[0])
-            # print(len(ranks))
-            # print(programs[0])
-            # print(len(programs))
+            if selector == rank:
+                print('What would you like to see?\n')
+                choices = ['Overall rank', 'Rank at a certain time']
+                user_choice = get_user_input(choices)
+                print(f'You have chosen: {choices[user_choice]}')
+                if choices[user_choice] == 'Overall rank':
+                    ranked_titles = find_average_rank(programs, ranks)
+                # pprint(ranked_titles)
+                print(ranked_titles[0][0])
+                print(ranked_titles[1][0])
 
 
 def main():
