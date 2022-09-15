@@ -268,14 +268,24 @@ class DataManager():
                 user_choice = get_user_input(choices)
                 print(f'You have chosen: {choices[user_choice]}')
                 if choices[user_choice] == 'Overall rank':
-                    ranked_titles = find_average_rank(programs, ranks, 3)
+                    ranked_titles = find_average_rank(programs, ranks, 2)
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
+
+                    sorted_titles = sorted_ranked_titles[0]
+                    sorted_ranks = sorted_ranked_titles[1]
+
+                    for tit, rank in zip(sorted_titles, sorted_ranks):
+                        print(f'titles: {tit} rank: {rank}')
+                    
+                    my_title = 'Netflix programs by average ' \
+                               'rank (smaller is better)'
                     pt.simple_bar(sorted_ranked_titles[0],
                                   sorted_ranked_titles[1],
-                                  width=200)
-                    pt.title('Netflix programs by average rank')
-                    # pt.plot_size(80 * SCALE, 24 * SCALE)
+                                  width=100,
+                                  title=my_title)
                     pt.show()
+                if choices[user_choice] == 'Rank at a certain time':
+                    pass
 
 
 def main():

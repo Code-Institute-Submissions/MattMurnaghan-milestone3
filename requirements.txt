@@ -4,11 +4,8 @@ fonttools==4.37.1
 google-auth==2.11.0
 google-auth-oauthlib==0.5.2
 gspread==5.5.0
-gspread-pandas==3.2.2
 kiwisolver==1.4.4
-numpy==1.23.3
 oauthlib==3.2.1
-pandas==1.4.4
 Pillow==9.2.0
 plotext==5.2.2
 pyasn1==0.4.8
