@@ -274,8 +274,8 @@ class DataManager():
                     sorted_titles = sorted_ranked_titles[0]
                     sorted_ranks = sorted_ranked_titles[1]
 
-                    for tit, rank in zip(sorted_titles, sorted_ranks):
-                        print(f'titles: {tit} rank: {rank}')
+                    # for tit, rank in zip(sorted_titles, sorted_ranks):
+                    #     print(f'titles: {tit} rank: {rank}')
                     
                     my_title = 'Netflix programs by average ' \
                                'rank (smaller is better)'
