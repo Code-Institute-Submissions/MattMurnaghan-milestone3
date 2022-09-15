@@ -272,11 +272,10 @@ class DataManager():
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
                     pt.simple_bar(sorted_ranked_titles[0],
                                   sorted_ranked_titles[1],
-                                  width=100)
-                    pt.title('TEST')
+                                  width=80)
+                    pt.title('Netflix programs by average rank')
                     # pt.plot_size(80 * SCALE, 24 * SCALE)
                     pt.show()
-                    print(sorted_ranked_titles[0][0])
 
 
 def main():
