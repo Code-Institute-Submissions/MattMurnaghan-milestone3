@@ -7,17 +7,13 @@ stored within a google sheet using the gspread and google-auth
 APIs.
 """
 from pprint import pprint
-# import time
-from random import randint
-# import numpy as np
-# import pandas as pd
-# import gspread_pandas
 import gspread
 import plotext as pt
 from google.oauth2.service_account import Credentials
 
 COLUMN_TITLES = 1
 PROGRAM_TITLES = 5
+SCALE = 0.85
 
 
 def test_plotext():
@@ -121,9 +117,12 @@ def get_user_input(choices):
     return int(data_option) - 1
 
 
-def find_average_rank(titles, data):
+def find_average_rank(titles, data, decimal):
     """
-    This function finds the average rank of netflix shows between 2020 and 2022 
+    This function finds the average rank of netflix shows between 2020 and
+    2022. It takes a list of titles and a list of ranks as arguments. It
+    takes an integer value as the amount of decimal points the user wishes
+    to round the rank of each program to.
     """
     print('in find_average_rank')
     unique_titles = remove_duplicates(titles)
@@ -136,24 +135,24 @@ def find_average_rank(titles, data):
         average_ranks[title_index].append(int(data[data_count]))
         data_count += 1
     for ranks in average_ranks:
-        calculated_average.append(round(sum(ranks)/len(ranks), 2))
-    # for avg, tit in zip(calculated_average, unique_titles):
-    #     print(f'title: {tit} average ranks: {avg}')
-
-    # mydict = {}
-    # for avg, tit in zip(calculated_average, unique_titles):
-    #     mydict[tit] = avg
-    # pprint(mydict)
-    # return mydict
+        calculated_average.append(round(sum(ranks)/len(ranks), decimal))
     return [unique_titles, calculated_average]
 
 
-def sort_titles_and_rank(titles, ranks):
+def sort_titles_and_rank(ranked_titles):
     """
     This function should sort through a list of rankings
     and sort the assigned titles as well.
     """
-    pass
+    titles = ranked_titles[0]
+    ranks = ranked_titles[1]
+    i = 0
+    for i in range(0, len(ranks) - 1):
+        for j in range(0, len(ranks) - 1 - i):
+            if ranks[j] > ranks[j + 1]:
+                ranks[j], ranks[j + 1] = ranks[j + 1], ranks[j]
+                titles[j], titles[j + 1] = titles[j + 1], titles[j]
+    return [titles, ranks]
 
 
 class GoogleSheet():
@@ -269,10 +268,15 @@ class DataManager():
                 user_choice = get_user_input(choices)
                 print(f'You have chosen: {choices[user_choice]}')
                 if choices[user_choice] == 'Overall rank':
-                    ranked_titles = find_average_rank(programs, ranks)
-                # pprint(ranked_titles)
-                print(ranked_titles[0][0])
-                print(ranked_titles[1][0])
+                    ranked_titles = find_average_rank(programs, ranks, 3)
+                    sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
+                    pt.simple_bar(sorted_ranked_titles[0],
+                                  sorted_ranked_titles[1],
+                                  width=100)
+                    pt.title('TEST')
+                    # pt.plot_size(80 * SCALE, 24 * SCALE)
+                    pt.show()
+                    print(sorted_ranked_titles[0][0])
 
 
 def main():
