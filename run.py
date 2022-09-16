@@ -287,13 +287,6 @@ class DataManager():
         self.program_titles_column = sheet.col_values(PROGRAM_TITLES)
         self.as_of = sheet.col_values(1)[1:]
 
-    def print_program_titles(self):
-        """
-        Prints the program titles to the terminal.
-        """
-        pprint(remove_duplicates((self.program_titles_column)))
-        print(len(remove_duplicates((self.program_titles_column))))
-
     def get_selection(self):
         """
         This method asks the user to choose from a selection of data to view
