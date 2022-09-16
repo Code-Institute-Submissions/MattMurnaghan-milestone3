@@ -1,4 +1,4 @@
-    """ - Milestone 3 -
+""" - Milestone 3 -
 Author: Matthew Murnaghan
 Date: 12/09/2022
 
@@ -6,7 +6,6 @@ This program is created to manipulate and update numerical data
 stored within a google sheet using the gspread and google-auth
 APIs.
 """
-from pprint import pprint
 import time
 import gspread
 import plotext as pt
@@ -304,7 +303,6 @@ class DataManager():
         y_rank = 'Year to Date Rank'
         animation_delay = 0.5
         terminal_width = 128
-        terminal_width = round(terminal_width * scale)
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
         if selector is rank or w_rank or y_rank:
