@@ -68,3 +68,12 @@ The design for this project was minimal, the template given to use by the codein
 No wireframes were required for this project as the frontend was pre-built.
 
 ### ***Design - Logic Flowchart***
+[flow-chart PDF](assets/pdfs/milestone_3_flowchart.pdf)
+
+The logic flowchart for this project is shown below. The idea was to create a cyclical process that would allow the user to make a single request to load the data from the sheet, make a request to view the data, then loop over that request if they required more information. At the end of the flow, the user is prompted with a clean exit to the program
+
+I designed this flowchart using [Lucidchart](https://lucid.app/users/login#/login?referredProduct=lucidchart)
+
+![[flow-chart image]](assets/images/flow-chart.jpg)
+
+## ***Features***
