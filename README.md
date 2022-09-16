@@ -83,7 +83,7 @@ The main function is quite compact and makes references to some key functions us
 ### ***Class - -GoogleSheet*** 
 The GoogleSheet class (written in camelcase as is standard practice when writing classes in python) manages the connection to and extraction of the data from the google spreadsheet holding our netflix_data worksheet.
 
-#### *Methods - \__init__*
+#### *Methods - \__init__(self)*
 The init method is native to every class in python and allows for the class object to be instantiated with the required values:
 * self.data = None
 * self.sheet = None
@@ -92,4 +92,21 @@ The init method is native to every class in python and allows for the class obje
 * self.scoped_creds = self.creds.with_scopes(self.scopes)
 * self.gspread_client = gspread.authorize(self.scoped_creds)
 #### *Methods - load_data(self)*
-Once these fields are instantiated, we invoke load_data on the object to attempt to open a connection with the netflix_data spreadsheet through our gspread client. Any errors opening the sheet or populating the data from the sheet are handled with a try, catch loop that raises a Value Error with exit code 1.
+Once these fields are instantiated, we invoke load_data on the object to attempt to open a connection with the netflix_data spreadsheet through our gspread client. Any errors opening the sheet or populating the data from the sheet are handled with a try, catch loop that raises a Value Error with exit code 1. Once the connection is established, the data is called from the sheet and the user is notified that a connection is underway.
+#### *Methods - get_data(self)*
+This method checks to see if there is any data to display by querying the self.data property. Othwerwise, if data is present, the function just returns this property, passing it to the main function.
+
+### ***Class - -DataManagaer***
+The data manager class handles all of the data associated with the google spreadsheet that we are analyzing. It is the larger of the two classes and is where most of the core logic behind the application is carried out.
+#### *Methods - \__init__(self, sheet)*
+The DataManager object is initialized after the google sheets object as it pulls some of its core properties from that class:
+* self.worksheet = sheet
+* self.column_titles = sheet.row_values(COLUMN_TITLES)
+* self.program_titles_column = sheet.col_values(PROGRAM_TITLES)
+* self.as_of = sheet.col_values(1)[1:]
+
+The sheet variable is passed to the data_manager object as an argument. 
+The next three properties are all related to the row and column values from various data groups contained within the netflix_data spreadsheet. Their variable names state explicitly what they refer to.
+
+#### *Methods - get_selection(self)*
+This method invokes the get_user_input() function and is the main message seen by the user after the greeting screen. It presents the list of data options available to the user and which ones are currently unavailable. Right now, the only feature available is to filter the data based on daily ranking, but this will be looked at further in the future features section.
