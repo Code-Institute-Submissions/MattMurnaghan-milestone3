@@ -343,6 +343,9 @@ class DataManager():
                                   width=terminal_width,
                                   title=my_title)
                     pt.show()
+                    print(f'\nThere are {len(ranked_titles[0])} programs '
+                          'that held a place in the top ten on netflix over '
+                          'the course of the pandemic.')
                 if choices[user_choice] == 'Rank at a certain time':
                     has_30_days = ['Apr', 'Jun', 'Sep', 'Nov']
                     y_choices = ['2020', '2021', '2022']
