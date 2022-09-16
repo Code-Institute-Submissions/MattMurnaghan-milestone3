@@ -1,4 +1,4 @@
-""" - Milestone 3 -
+    """ - Milestone 3 -
 Author: Matthew Murnaghan
 Date: 12/09/2022
 
@@ -248,7 +248,7 @@ class GoogleSheet():
             self.sheet = self.gspread_client.open('milestone_3_data')
         except ValueError as error:
             print(f'Error opening sheet: {error}')
-            exit(0)
+            exit(1)
         else:
             print('Sheet opened successfully.\n')
 
@@ -257,7 +257,7 @@ class GoogleSheet():
             self.data = self.sheet.worksheet('netflix_data')
         except ValueError as error:
             print(f'Error loading worksheet data: {error}')
-            exit(0)
+            exit(1)
         else:
             print('Data loaded successfully.\n')
 
@@ -286,12 +286,6 @@ class DataManager():
         self.column_titles = sheet.row_values(COLUMN_TITLES)
         self.program_titles_column = sheet.col_values(PROGRAM_TITLES)
         self.as_of = sheet.col_values(1)[1:]
-
-    def print_column_titles(self):
-        """
-        Prints titles
-        """
-        pprint(self.column_titles)
 
     def print_program_titles(self):
         """

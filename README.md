@@ -77,3 +77,19 @@ I designed this flowchart using [Lucidchart](https://lucid.app/users/login#/logi
 ![[flow-chart image]](assets/images/flow-chart.jpg)
 
 ## ***Features***
+### ***Main*** 
+The main function is quite compact and makes references to some key functions used by the application, as well as two core classes: The GoogleSheet class and the DataManager class.
+
+### ***Class - -GoogleSheet*** 
+The GoogleSheet class (written in camelcase as is standard practice when writing classes in python) manages the connection to and extraction of the data from the google spreadsheet holding our netflix_data worksheet.
+
+#### *Methods - \__init__*
+The init method is native to every class in python and allows for the class object to be instantiated with the required values:
+* self.data = None
+* self.sheet = None
+* self.scope = [required google authentication links]
+* self.creds = Credentials.from_service_account_file('creds.json)
+* self.scoped_creds = self.creds.with_scopes(self.scopes)
+* self.gspread_client = gspread.authorize(self.scoped_creds)
+#### *Methods - load_data(self)*
+Once these fields are instantiated, we invoke load_data on the object to attempt to open a connection with the netflix_data spreadsheet through our gspread client. Any errors opening the sheet or populating the data from the sheet are handled with a try, catch loop that raises a Value Error with exit code 1.
