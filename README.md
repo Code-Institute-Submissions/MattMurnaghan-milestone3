@@ -11,10 +11,10 @@
 The Netflix analysis tool is s terminal-based application, written in python that allows for data collected on Netflix users through the pandemic to be manipulated and shown in graph form in the terminal using the [Plotext](https://pypi.org/project/plotext/) library.
 
 ## ***Table of Contents***
-1. ### [User Experience(UX)](https://github.com/MattMurnaghan/milestone3#the-netflix-analysis-tool)
-    * [Strategy](https://github.com/MattMurnaghan/milestone3#strategy----project-goals)
-        * [Project Goals](https://github.com/MattMurnaghan/milestone3#strategy----project-goals)
-        * [User stories](https://github.com/MattMurnaghan/milestone3#strategy----user-stories)
+1. ### User Experience(UX)
+    * Strategy
+        * Project Goals
+        * User stories
     * Scope
     * Design
     * Skeleton
@@ -32,7 +32,7 @@ The Netflix analysis tool is s terminal-based application, written in python tha
 6. ### Credits
 7. ### Acknowledgments
 
-## ***User Experience (UX)*** <a name="UX"></a>
+## ***User Experience (UX)***<a name="UX"></a>
 ### ***Strategy*** -  *Project Goals* <a name="Project goals"></a>
 This project aimed to develop a terminal-based python application to demonstrate my ability to make use of the CLI. Python is a very good language for this, as it is primarily used in backend system design. It has a wide range of libraries available to pull from, which were instrumental in the completion of this project.
 
@@ -66,12 +66,12 @@ To achieve the goals laid out in my strategy, I want to implement the following 
 The design for this project was minimal, the template given to use by the codeinstitute was pre-built and made use of the standard windows black and white terminal and CLI hosted virtually on Heroku.
 
 ### ***Design - Wireframes*** <a name="Wireframes"></a>
-No wireframes were required for this project as the frontend was pre-built.
+No wireframes were required for this project as the front-end was pre-built.
 
 ### ***Design - Logic Flowchart*** <a name="Logic flowchart"></a>
 [flow-chart PDF](assets/pdfs/milestone_3_flowchart.pdf)
 
-The logic flowchart for this project is shown below. The idea was to create a cyclical process that would allow the user to make a single request to load the data from the sheet, make a request to view the data, then loop over that request if they required more information. At the end of the flow, the user is prompted with a clean exit to the program
+The logic flowchart for this project is shown below. The idea was to create a cyclical process that would allow the user to make a single request to load the data from the sheet, make a request to view the data, then loop over that request if they required more information. At the end of the flow, the user is prompted with a clean exit from the program
 
 I designed this flowchart using [Lucidchart](https://lucid.app/users/login#/login?referredProduct=lucidchart)
 
@@ -164,7 +164,7 @@ I have utilized the following libraries and technologies to help build this proj
     * Used to provide the API's and credentials necessary for interfacing with the google sheet where I stored my data.
 * I used [Kaggle](https://www.kaggle.com/datasets/prasertk/netflix-daily-top-10-in-us) who in turn used the [The Numbers](https://www.the-numbers.com/netflix-top-10)
     * I referenced these sites for where I found the data set that I analyzed.
-* [Pep8](http://pep8online.com/checkresult) and the built in Run.py linter
+* [Pep8](http://pep8online.com/checkresult) and the built-in Run.py linter
     * Used for checking my code and making sure it conforms to industry standard pythonic coding styles.
 * [Stack Overflow](https://stackoverflow.com/questions/285289/exit-codes-in-python) and [Geeksforgeeks](https://www.geeksforgeeks.org/range-to-a-list-in-python/)
     * I refered to these resources quite a lot for general python syntax knowledge and tricks.
@@ -343,7 +343,13 @@ The following steps were followed to deploy this project:
 6. Add 'Python' and save changes, then add 'Node.js' and save the changes again.
 7. Scroll down to 'Config Vars' section, and add the 'KEY' and 'PORT' for the credentials and additional 8000 port for running the app.
 8. At the top of the page, click on the 'Deploy' section.
-9. Select Github as deployment method.
-10. Select 'Connect to Github', and locate the repository name and click on 'Connect' to link my Heroku app to my Github repository code.
-11. Scroll further down, select 'Enable Automatic Deploys' and then select 'Deploy Branch' to deploy project.
-12. After it has successfully deployed a 'view' button appears on screen and when clicked opens the deployed application.
+9. Select GitHub as deployment method.
+10. Select 'Connect to GitHub', and locate the repository name and click on 'Connect' to link my Heroku app to my Github repository code.
+11. Scroll further down, select 'Enable Automatic Deploys' and then select 'Deploy Branch' to deploy the project.
+12. After it has successfully deployed a 'view' button appears on-screen and when clicked opens the deployed application.
+
+## ***Credits*** <a name="credits"></a>
+A lot of inspiration was drawn from the Code Institutes Love Sandwiches project to assist in the design of this project. Some code was repurposed and given a more secure facelift so to speak concerning the procedure of authenticating with google. 
+
+## ***Acknowledgments*** <a name="Acknowledgements"></a>
+Of course, as usual, I can't thank my mentor Guido Cecilio enough for all the help and support he provided me with for this project. His knowledge helps massively to bridge the gap when it comes to my lesser experience with python and it is always much appreciated.
