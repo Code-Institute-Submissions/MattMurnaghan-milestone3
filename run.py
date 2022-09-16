@@ -19,20 +19,6 @@ IN_DEV = True
 NOT_IN_DEV = False
 
 
-def test_plotext():
-    """
-    Test function to check the output of plotext in the heroku terminal.
-    This will be deleted in the final version of the code.
-    """
-    scale = 0.85
-    y_vals = [1, 2, 3, 3, 4, 5, 6, 7, 8]
-    x_vals = [1, 2, 3, 3, 4, 5, 6, 7, 8]
-    pt.bar(x_vals, y_vals)
-    pt.title('TEST')
-    pt.plot_size(80 * scale, 24 * scale)
-    pt.show()
-
-
 def remove_duplicates(arr):
     """
     This function returns a list with duplicate values removed.
@@ -73,6 +59,7 @@ def print_welcome_graphic():
 def greet_user():
     """
     Gets the users name as input in the form of a string.
+    The function provides error handling for incorrect input.
     """
     has_numbers = True
     too_long = True
@@ -98,7 +85,19 @@ def greet_user():
 
 def get_user_input(choices, in_development):
     """
-    Lists choices then requests and validates input from user
+    Lists choices passed as a list argument, then requests and
+    validates input from user, via the command line. It returns
+    the integer value that the user selected minus 1.
+
+    I modified this function
+    with an in_development argument to highlight the future features of the
+    project.
+
+    By passing a boolean true as the second argument, a modified welcome
+    screen is presented to the user, showing what features are currently
+    available to them.
+
+    Further development would allow a user to view other fields of information.
     """
     if in_development:
         i = 1
@@ -155,6 +154,13 @@ def find_average_rank(titles, data, decimal):
     2022. It takes a list of titles and a list of ranks as arguments. It
     takes an integer value as the amount of decimal points the user wishes
     to round the rank of each program to.
+
+    The function returns a list holding both a list of lists for each of
+    the rankings for the unique program titles and a list of the unique
+    program titles themselves.
+
+    This could be refactored in the futures to find the average of any value
+    passed as an argument e.g. the viewership score.
     """
     unique_titles = remove_duplicates(titles)
     average_ranks = [[] for i in unique_titles]
@@ -171,8 +177,12 @@ def find_average_rank(titles, data, decimal):
 
 def sort_titles_and_rank(ranked_titles):
     """
-    This function should sort through a list of rankings
-    and sort the assigned titles as well.
+    This function sorts through a list of rankings and sorts the
+    assigned titles as well.
+
+    It takes a 2D list, holding the average rankings of the unique
+    titles, as well as the unique titles in their own list and sorts
+    both arrays according to rank in ascending order.
     """
     titles = ranked_titles[0]
     ranks = ranked_titles[1]
@@ -187,7 +197,10 @@ def sort_titles_and_rank(ranked_titles):
 
 class GoogleSheet():
     """
-    This class hides any credentials to access the sheet from the global scope.
+    This class hides any credentials to access the linked google sheet
+    from the global scope. It is called in the main to initiate a connection
+    and retrieve the data from netflix_data worksheet saved on my google
+    account.
     """
     def __init__(self):
         self.data = None
@@ -203,7 +216,7 @@ class GoogleSheet():
 
     def load_data(self):
         """
-        This method requests data from the milestone_3_data worksheet and
+        This method requests data from the milestone_3_data spreadsheet and
         stores it in the object property, self.sheet. It then loads the
         data from the sheet into the self.data property.
         """
@@ -357,7 +370,6 @@ class DataManager():
                         else:
                             print(f'Please pick a date between {self.as_of[1]}'
                                   f' and {self.as_of[-1]}')
-                    
                     print('Please wait while result is calculated...\n')
                     for star in load_stars:
                         time.sleep(0.5)
