@@ -14,7 +14,7 @@ from google.oauth2.service_account import Credentials
 
 COLUMN_TITLES = 1
 PROGRAM_TITLES = 5
-SCALE = 0.85
+SCALE = 1.6
 IN_DEV = True
 NOT_IN_DEV = False
 
@@ -317,7 +317,8 @@ class DataManager():
         w_rank = 'Last Week Rank'
         y_rank = 'Year to Date Rank'
         animation_delay = 0.5
-        terminal_width = pt.tw() * 0.85
+        terminal_width = 80
+        terminal_width = round(terminal_width * SCALE)
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
         if selector is rank or w_rank or y_rank:
