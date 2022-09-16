@@ -7,6 +7,7 @@ stored within a google sheet using the gspread and google-auth
 APIs.
 """
 from pprint import pprint
+import time
 import gspread
 import plotext as pt
 from google.oauth2.service_account import Credentials
@@ -14,6 +15,8 @@ from google.oauth2.service_account import Credentials
 COLUMN_TITLES = 1
 PROGRAM_TITLES = 5
 SCALE = 0.85
+IN_DEV = True
+NOT_IN_DEV = False
 
 
 def test_plotext():
@@ -93,28 +96,57 @@ def greet_user():
     print('multiple netflix users over the course of the pandemic.\n')
 
 
-def get_user_input(choices):
+def get_user_input(choices, in_development):
     """
     Lists choices then requests and validates input from user
     """
-    i = 1
-    for choice in choices:
-        print(f'{i}: {choice}')
-        i += 1
-    invalid_option = True
-    length = len(choices) + 1
-    while invalid_option:
-        data_option = input('\nPlease enter choice here: ')
-        try:
-            in_rng = int(data_option) in range(1, length)
-            if int(data_option) and in_rng:
-                invalid_option = False
+    if in_development:
+        i = 1
+        for choice in choices:
+            if i < 10:
+                if i == 2:
+                    print(f' {i}:  {choice}')
+                else:
+                    print(f' {i}:  {choice} - Not currently available')
             else:
-                print(f'You selected: {data_option}. Please enter choice')
-                print(f'between 1 and {length - 1} inclusive:\n')
-        except ValueError as error:
-            print(f'Error: {error}.\nPlease enter an integer option.\n')
-    return int(data_option) - 1
+                print(f'{i}:  {choice} - Not currently available')
+            i += 1
+        invalid_option = True
+        length = len(choices) + 1
+        while invalid_option:
+            data_option = input('\nPlease enter choice here: ')
+            try:
+                in_rng = 2
+                if int(data_option) and data_option == '2':
+                    invalid_option = False
+                else:
+                    print(f'You selected: {data_option}.')
+                    print('Please enter an available choice.\n')
+            except ValueError as error:
+                print(f'Error: {error}.\nPlease enter an integer option.\n')
+        return int(data_option) - 1
+    else:
+        i = 1
+        for choice in choices:
+            if i < 10:
+                print(f' {i}: {choice}')
+            else:
+                print(f'{i}: {choice}')
+            i += 1
+        invalid_option = True
+        length = len(choices) + 1
+        while invalid_option:
+            data_option = input('\nPlease enter choice here: ')
+            try:
+                in_rng = int(data_option) in range(1, length)
+                if int(data_option) and in_rng:
+                    invalid_option = False
+                else:
+                    print(f'You selected: {data_option}. Please enter choice')
+                    print(f'between 1 and {length - 1} inclusive:\n')
+            except ValueError as error:
+                print(f'Error: {error}.\nPlease enter an integer option.\n')
+        return int(data_option) - 1
 
 
 def find_average_rank(titles, data, decimal):
@@ -124,11 +156,9 @@ def find_average_rank(titles, data, decimal):
     takes an integer value as the amount of decimal points the user wishes
     to round the rank of each program to.
     """
-    print('in find_average_rank')
     unique_titles = remove_duplicates(titles)
     average_ranks = [[] for i in unique_titles]
     calculated_average = []
-    print(len(average_ranks))
     data_count = 0
     for title in titles:
         title_index = unique_titles.index(title)
@@ -219,6 +249,7 @@ class DataManager():
         self.worksheet = sheet
         self.column_titles = sheet.row_values(COLUMN_TITLES)
         self.program_titles_column = sheet.col_values(PROGRAM_TITLES)
+        self.as_of = sheet.col_values(1)[1:]
 
     def print_column_titles(self):
         """
@@ -238,7 +269,7 @@ class DataManager():
         This method asks the user to choose from a selection of data to view
         """
         print('What data would you like to view?')
-        result = get_user_input(self.column_titles)
+        result = get_user_input(self.column_titles, IN_DEV)
         return result
 
     def display_data(self, option):
@@ -249,25 +280,35 @@ class DataManager():
         rank = 'Rank'
         w_rank = 'Last Week Rank'
         y_rank = 'Year to Date Rank'
-
-        # print('display data')
+        load_stars = ['*',
+                      '* *',
+                      '* * *',
+                      '* * * *',
+                      '* * * * *',
+                      '* * * *',
+                      '* * *',
+                      '* *',
+                      '*'
+                      ]
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
-
         if selector is rank or w_rank or y_rank:
             programs_column = self.program_titles_column
-            print(option)
             ranks_column = self.worksheet.col_values(option + 1)
-            pprint(ranks_column[1:5])
             programs = programs_column[1:]
             ranks = ranks_column[1:]
 
             if selector == rank:
                 print('What would you like to see?\n')
                 choices = ['Overall rank', 'Rank at a certain time']
-                user_choice = get_user_input(choices)
+                user_choice = get_user_input(choices, NOT_IN_DEV)
                 print(f'You have chosen: {choices[user_choice]}')
                 if choices[user_choice] == 'Overall rank':
+                    print('Please wait while result is calculated...\n')
+                    for star in load_stars:
+                        time.sleep(0.5)
+                        print(star)
+
                     ranked_titles = find_average_rank(programs, ranks, 4)
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
                     my_title = 'Netflix programs by average ' \
@@ -294,31 +335,43 @@ class DataManager():
                     invalid_option = True
                     while invalid_option:
                         print('Which year: \n')
-                        user_choice_y = get_user_input(y_choices)
+                        user_choice_y = get_user_input(y_choices, NOT_IN_DEV)
                         print('Which month: \n')
-                                    
-                        user_choice_m = get_user_input(m_choices)
-
+                        user_choice_m = get_user_input(m_choices, NOT_IN_DEV)
                         print('Which date: \n')
                         if m_choices[user_choice_m] == 'Feb':
-                            user_choice_d = get_user_input(d_choices[0:28])
+                            user_choice_d = get_user_input(d_choices[0:28],
+                                                           NOT_IN_DEV)
                         elif m_choices[user_choice_m] in has_30_days:
-                            user_choice_d = get_user_input(d_choices[0:30])
+                            user_choice_d = get_user_input(d_choices[0:30],
+                                                           NOT_IN_DEV)
                         else:
-                            user_choice_d = get_user_input(d_choices)
+                            user_choice_d = get_user_input(d_choices,
+                                                           NOT_IN_DEV)
                         user_date = d_choices[user_choice_d] + '/' + \
                             d_choices[user_choice_m] + '/' + \
                             y_choices[user_choice_y]
                         print(f'You selected: {user_date}')
-                        as_of = self.worksheet.col_values(1)[1:]
-                        if user_date in as_of:
+                        if user_date in self.as_of:
                             invalid_option = False
                         else:
-                            print(f'Please select a date between {as_of[1]} '
-                                  f'and {as_of[-1]}')
-
+                            print(f'Please pick a date between {self.as_of[1]}'
+                                  f' and {self.as_of[-1]}')
                     
-
+                    print('Please wait while result is calculated...\n')
+                    for star in load_stars:
+                        time.sleep(0.5)
+                        print(star)
+                    as_of_index = self.as_of.index(user_date) + 2
+                    titles = self.program_titles_column[
+                            as_of_index - 1: as_of_index + 9]
+                    ranks = self.worksheet.col_values(2)[
+                            as_of_index - 1: as_of_index + 9]
+                    for i in range(0, len(ranks)):
+                        ranks[i] = int(ranks[i])
+                    my_title = 'Netflix programs by rank (smaller is better)'
+                    pt.simple_bar(titles, ranks, width=200, title=my_title)
+                    pt.show()
 
 
 def main():
