@@ -19,6 +19,27 @@ IN_DEV = True
 NOT_IN_DEV = False
 
 
+def print_load_animation(delay):
+    """
+    This function prints a loading graphic to the terminal
+    and creates a delay in seconds that is passed as an argument.
+    """
+    load_stars = ['*',
+                  '* *',
+                  '* * *',
+                  '* * * *',
+                  '* * * * *',
+                  '* * * *',
+                  '* * *',
+                  '* *',
+                  '*'
+                  ]
+    print('Please wait while result is calculated...\n')
+    for star in load_stars:
+        time.sleep(delay)
+        print(star)
+
+
 def remove_duplicates(arr):
     """
     This function returns a list with duplicate values removed.
@@ -60,6 +81,7 @@ def greet_user():
     """
     Gets the users name as input in the form of a string.
     The function provides error handling for incorrect input.
+    The username is returned from the function.
     """
     has_numbers = True
     too_long = True
@@ -81,6 +103,7 @@ def greet_user():
     print(f'Welcome {user_name}!\n')
     print('This tool allows you to analyse data collected from')
     print('multiple netflix users over the course of the pandemic.\n')
+    return user_name
 
 
 def get_user_input(choices, in_development):
@@ -293,16 +316,7 @@ class DataManager():
         rank = 'Rank'
         w_rank = 'Last Week Rank'
         y_rank = 'Year to Date Rank'
-        load_stars = ['*',
-                      '* *',
-                      '* * *',
-                      '* * * *',
-                      '* * * * *',
-                      '* * * *',
-                      '* * *',
-                      '* *',
-                      '*'
-                      ]
+        animation_delay = 0.5
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
         if selector is rank or w_rank or y_rank:
@@ -317,11 +331,7 @@ class DataManager():
                 user_choice = get_user_input(choices, NOT_IN_DEV)
                 print(f'You have chosen: {choices[user_choice]}')
                 if choices[user_choice] == 'Overall rank':
-                    print('Please wait while result is calculated...\n')
-                    for star in load_stars:
-                        time.sleep(0.5)
-                        print(star)
-
+                    print_load_animation(animation_delay)
                     ranked_titles = find_average_rank(programs, ranks, 4)
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
                     my_title = 'Netflix programs by average ' \
@@ -370,10 +380,7 @@ class DataManager():
                         else:
                             print(f'Please pick a date between {self.as_of[1]}'
                                   f' and {self.as_of[-1]}')
-                    print('Please wait while result is calculated...\n')
-                    for star in load_stars:
-                        time.sleep(0.5)
-                        print(star)
+                    print_load_animation(animation_delay)
                     as_of_index = self.as_of.index(user_date) + 2
                     titles = self.program_titles_column[
                             as_of_index - 1: as_of_index + 9]
@@ -394,10 +401,21 @@ def main():
     sheet.load_data()
     netflix_data = sheet.get_data()
     data_manager = DataManager(netflix_data)
+    go_again = True
     print_welcome_graphic()
-    greet_user()
-    data_option = data_manager.get_selection()
-    data_manager.display_data(data_option)
+    user_name = greet_user()
+    while go_again:
+        data_option = data_manager.get_selection()
+        data_manager.display_data(data_option)
+        print('\nDo you want to view more data?')
+        choices = ['Yes', 'No']
+        user_input = get_user_input(choices, NOT_IN_DEV)
+        if choices[user_input] == 'No':
+            go_again = False
+        else:
+            print('\nOkay, showing more data...\n')
+    print("Great, I think we've all heard enough about Covid...")
+    print(f'\nGoodbye {user_name}!')
 
 
 main()
