@@ -1,5 +1,5 @@
 # ***The Netflix analysis tool***
-[Public heroku application here](https://milestone3-mattm.herokuapp.com/)
+[Public Heroku application here](https://milestone3-mattm.herokuapp.com/)
 
 [Google sheet with data used for analysis here](https://docs.google.com/spreadsheets/d/17R_6HWEAwSK1co3U75EFtQCfpvsylo-q3HqG1_y9ALw/edit#gid=0)
 
@@ -18,10 +18,11 @@ The Netflix analysis tool is s terminal-based application, written in python tha
     * Scope
     * Design
     * Skeleton
+        * Wireframes 
         * Logic Flowchart
 2. ### Features
     * Current features
-    * Future featuers
+    * Future features
 3. ### Technology used
 4. ### Testing
     * User stories
@@ -50,3 +51,20 @@ The dataset has over 7000 rows of data and 10 columns, arranging the different r
     * I want to provide an application that allows the user to select how and what data they view
     * I want to provide the number of unique titles to the user.
     * I want to maintain the correct order of titles and rankings when calculating the average for the course of the entire pandemic.
+
+### ***Scope***
+To achieve the goals laid out in my strategy, I want to implement the following functionality:
+* A method of importing data from google sheets.
+* A method of keeping the credentials needs to access the sheet in the proper scope so as not to expose them to the main.
+* A method of calculating the average score of each title in the full list of titles in the dataset.
+* A method of calculating the unique program titles, and the number of unique titles shown in the Netflix top ten throughout the pandemic.
+* A method to get valid input from the user to interact with the program.
+* A method to graph and visualize the data in the terminal where the project is being hosted. 
+
+### ***Design*** 
+The design for this project was minimal, the template given to use by the codeinstitute was pre-built and made use of the standard windows black and white terminal and CLI hosted virtually on Heroku.
+
+### ***Design - Wireframes*** 
+No wireframes were required for this project as the frontend was pre-built.
+
+### ***Design - Logic Flowchart***

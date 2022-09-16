@@ -336,6 +336,12 @@ class DataManager():
                     print_load_animation(animation_delay)
                     ranked_titles = find_average_rank(programs, ranks, 4)
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
+                    print('Do you want to view the data in reverse order?')
+                    choices = ['Yes', 'No']
+                    user_input = get_user_input(choices, NOT_IN_DEV)
+                    if choices[user_input] == 'Yes':
+                        sorted_ranked_titles[0].reverse()
+                        sorted_ranked_titles[1].reverse()
                     my_title = 'Netflix programs by average ' \
                                'rank (smaller is better)'
                     pt.simple_bar(sorted_ranked_titles[0],
@@ -393,6 +399,12 @@ class DataManager():
                             as_of_index - 1: as_of_index + 9]
                     for i in range(0, len(ranks)):
                         ranks[i] = int(ranks[i])
+                    print('Do you want to view the data in reverse order?')
+                    choices = ['Yes', 'No']
+                    user_input = get_user_input(choices, NOT_IN_DEV)
+                    if choices[user_input] == 'Yes':
+                        titles.reverse()
+                        ranks.reverse()
                     my_title = 'Netflix programs by rank (smaller is better)'
                     pt.simple_bar(titles, ranks, width=terminal_width,
                                   title=my_title)
