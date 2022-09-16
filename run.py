@@ -111,7 +111,7 @@ def get_user_input(choices):
                 invalid_option = False
             else:
                 print(f'You selected: {data_option}. Please enter choice')
-                print(f'between 1 and {length} inclusive:\n')
+                print(f'between 1 and {length - 1} inclusive:\n')
         except ValueError as error:
             print(f'Error: {error}.\nPlease enter an integer option.\n')
     return int(data_option) - 1
@@ -268,24 +268,57 @@ class DataManager():
                 user_choice = get_user_input(choices)
                 print(f'You have chosen: {choices[user_choice]}')
                 if choices[user_choice] == 'Overall rank':
-                    ranked_titles = find_average_rank(programs, ranks, 2)
+                    ranked_titles = find_average_rank(programs, ranks, 4)
                     sorted_ranked_titles = sort_titles_and_rank(ranked_titles)
-
-                    sorted_titles = sorted_ranked_titles[0]
-                    sorted_ranks = sorted_ranked_titles[1]
-
-                    # for tit, rank in zip(sorted_titles, sorted_ranks):
-                    #     print(f'titles: {tit} rank: {rank}')
-                    
                     my_title = 'Netflix programs by average ' \
                                'rank (smaller is better)'
                     pt.simple_bar(sorted_ranked_titles[0],
                                   sorted_ranked_titles[1],
-                                  width=80,
+                                  width=200,
                                   title=my_title)
                     pt.show()
                 if choices[user_choice] == 'Rank at a certain time':
-                    pass
+                    has_30_days = ['Apr', 'Jun', 'Sep', 'Nov']
+                    y_choices = ['2020', '2021', '2022']
+                    m_choices = ['Jan', 'Feb', 'Mar',
+                                 'Apr', 'May', 'Jun',
+                                 'Jul', 'Aug', 'Sep',
+                                 'Oct', 'Nov', 'Dec']
+                    d_choices = ['01', '02', '03', '04', '05',
+                                 '06', '07', '08', '09', '10',
+                                 '11', '12', '13', '14', '15',
+                                 '16', '17', '18', '19', '20',
+                                 '21', '22', '23', '24', '25',
+                                 '26', '27', '28', '29', '30',
+                                 '31']
+                    invalid_option = True
+                    while invalid_option:
+                        print('Which year: \n')
+                        user_choice_y = get_user_input(y_choices)
+                        print('Which month: \n')
+                                    
+                        user_choice_m = get_user_input(m_choices)
+
+                        print('Which date: \n')
+                        if m_choices[user_choice_m] == 'Feb':
+                            user_choice_d = get_user_input(d_choices[0:28])
+                        elif m_choices[user_choice_m] in has_30_days:
+                            user_choice_d = get_user_input(d_choices[0:30])
+                        else:
+                            user_choice_d = get_user_input(d_choices)
+                        user_date = d_choices[user_choice_d] + '/' + \
+                            d_choices[user_choice_m] + '/' + \
+                            y_choices[user_choice_y]
+                        print(f'You selected: {user_date}')
+                        as_of = self.worksheet.col_values(1)[1:]
+                        if user_date in as_of:
+                            invalid_option = False
+                        else:
+                            print(f'Please select a date between {as_of[1]} '
+                                  f'and {as_of[-1]}')
+
+                    
+
 
 
 def main():
