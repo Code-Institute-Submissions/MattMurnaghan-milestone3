@@ -38,7 +38,7 @@ def print_load_animation(delay):
         print(star)
 
 
-def remove_duplicates(arr):
+def remove_duplicates(arr): 
     """
     This function returns a list with duplicate values removed.
     """
@@ -270,7 +270,7 @@ class GoogleSheet():
             return self.data
 
 
-class DataManager():
+class DataManager():    
     """
     This class manages the data returned from the GoogleSheet class.
     All interaction with the sheet is facilitated by different methods
