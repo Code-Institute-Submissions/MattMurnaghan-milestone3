@@ -317,6 +317,7 @@ class DataManager():
         w_rank = 'Last Week Rank'
         y_rank = 'Year to Date Rank'
         animation_delay = 0.5
+        terminal_width = pt.tw() * 0.85
         selector = self.column_titles[option]
         print(f'you have chosen: {selector}\n')
         if selector is rank or w_rank or y_rank:
@@ -338,7 +339,7 @@ class DataManager():
                                'rank (smaller is better)'
                     pt.simple_bar(sorted_ranked_titles[0],
                                   sorted_ranked_titles[1],
-                                  width=200,
+                                  width=terminal_width,
                                   title=my_title)
                     pt.show()
                 if choices[user_choice] == 'Rank at a certain time':
@@ -389,7 +390,8 @@ class DataManager():
                     for i in range(0, len(ranks)):
                         ranks[i] = int(ranks[i])
                     my_title = 'Netflix programs by rank (smaller is better)'
-                    pt.simple_bar(titles, ranks, width=200, title=my_title)
+                    pt.simple_bar(titles, ranks, width=terminal_width,
+                                  title=my_title)
                     pt.show()
 
 
